@@ -1,9 +1,9 @@
 // ==UserScript==
-// @name         Filtros de Perfil por NOTAS - versão final
+// @name         TW Notes Scanner + Filtros de perfil
 // @namespace    http://tampermonkey.net/
-// @version      1.5.7
-// @description  Notes scanner + filtro por continentes K + muralha/torre + pontos da aldeia + filtro X/Y
-// @author       You
+// @version      1.7.0
+// @description  Notes scanner + filtros K + muralha/torre + pontos + coords + pop defesa/ataque + datas defesa/ataque + velocidade scan
+// @author       MDS80
 // @match        *://*.tribalwars.com.pt/*
 // @match        *://*.tribalwars.net/*
 // @match        *://*.tribalwars.es/*
@@ -1038,12 +1038,12 @@
             const $thead = $('#villages_list > thead > tr');
             if ($thead.find('th.pp-th-notes').length === 0) {
                 $thead.each(function () {
-                    $(this).append('<th class="pp-th-wall"    style="text-align:center;font-size:11px;">🏰 Muralha</th>');
-                    $(this).append('<th class="pp-th-tower"   style="text-align:center;font-size:11px;">🗼 Torre</th>');
-                    $(this).append('<th class="pp-th-popdef"  style="text-align:center;font-size:11px;color:#1b5e20;">👥 Pop (def)</th>');
-                    $(this).append('<th class="pp-th-datedef" style="text-align:center;font-size:11px;color:#1b5e20;">📅 Última def</th>');
-                    $(this).append('<th class="pp-th-popatk"  style="text-align:center;font-size:11px;color:#6a1b9a;">⚔️ Pop (atk)</th>');
-                    $(this).append('<th class="pp-th-dateatk" style="text-align:center;font-size:11px;color:#6a1b9a;">📅 Último atk</th>');
+                    $(this).append('<th class="pp-th-wall"    style="text-align:center;font-size:11px;">🏰<br>Muralha</th>');
+                    $(this).append('<th class="pp-th-tower"   style="text-align:center;font-size:11px;">🗼<br>Torre</th>');
+                    $(this).append('<th class="pp-th-popdef"  style="text-align:center;font-size:11px;color:#1b5e20;">👥<br>Pop defesa</th>');
+                    $(this).append('<th class="pp-th-datedef" style="text-align:center;font-size:11px;color:#1b5e20;">📅<br>Última defesa</th>');
+                    $(this).append('<th class="pp-th-popatk"  style="text-align:center;font-size:11px;color:#6a1b9a;">⚔️<br>Pop ataque</th>');
+                    $(this).append('<th class="pp-th-dateatk" style="text-align:center;font-size:11px;color:#6a1b9a;">📅<br>Último ataque</th>');
                     $(this).append('<th class="pp-th-notes"   style="text-align:center;">' + getTranslation('notes') + '</th>');
                 });
             }
@@ -1461,10 +1461,10 @@
                 <div class="pp-row-pop">
                     <span class="pp-filter-label">👥 Pop:</span>
                     <select id="pop-field" class="pp-coord-op" style="width:120px;" title="Qual população filtrar">
-                        <option value="defInside"  title="Tropas em casa quando TU atacaste (defensor em casa)">🏠 Def em casa</option>
-                        <option value="defOutside" title="Tropas fora de casa no momento do teu reconhecimento">✈️ Def fora</option>
-                        <option value="defTotal"   title="Soma de tropas em casa + fora (quando TU atacaste)">👥 Def total</option>
-                        <option value="atkSent"    title="Tropas que ELE enviou quando te atacou">⚔️ Atk enviado</option>
+                        <option value="defInside"  title="Tropas em casa quando TU atacaste (defensor em casa)">🏠 Defesa casa</option>
+                        <option value="defOutside" title="Tropas fora de casa no momento do teu reconhecimento">✈️ Defesa fora</option>
+                        <option value="defTotal"   title="Soma de tropas em casa + fora (quando TU atacaste)">👥 Defesa total</option>
+                        <option value="atkSent"    title="Tropas que ELE enviou quando te atacou">⚔️ Ataque enviado</option>
                     </select>
                     <select id="pop-op" class="pp-coord-op" title="Operador de comparação">
                         <option value=">=" title="Mostrar aldeias com população maior ou igual ao valor">≥</option>
@@ -1623,7 +1623,7 @@
                 $('#pop-val').val('');
                 return;
             }
-            const fieldLabel = { defInside: '🏠 Def casa', defOutside: '✈️ Def fora', defTotal: '👥 Def total', atkSent: '⚔️ Atk enviado' }[f.field] || f.field;
+            const fieldLabel = { defInside: '🏠 Defesa casa', defOutside: '✈️ Defesa fora', defTotal: '👥 Defesa total', atkSent: '⚔️ Ataque enviado' }[f.field] || f.field;
             const displayVal = (f.val / 1000) % 1 === 0 ? (f.val / 1000) + 'k' : (f.val / 1000).toFixed(1) + 'k';
             $('#pop-filter-status').text(fieldLabel + ' ' + f.op + ' ' + displayVal);
             $('#pop-field').val(f.field);
