@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         TW Notes Scanner + Filtros de perfil
+// @name         TW Notes Scanner + Filtros de perfil - vfinal
 // @namespace    http://tampermonkey.net/
 // @version      1.7.0
 // @description  Notes scanner + filtros K + muralha/torre + pontos + coords + pop defesa/ataque + datas defesa/ataque + velocidade scan
